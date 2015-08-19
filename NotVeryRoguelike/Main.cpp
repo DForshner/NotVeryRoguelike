@@ -25,6 +25,10 @@ int main()
 
   Console::Input input;
 
+  Console::drawBox(5, 5, 5, 5);
+
+  return 0;
+
   Game::World world;
   world.draw();
 

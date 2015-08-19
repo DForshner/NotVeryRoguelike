@@ -23,6 +23,7 @@
 #include <string>
 #include <memory>
 #include <conio.h>
+#include <assert.h>
 
 namespace Console {
 
@@ -33,7 +34,7 @@ namespace Console {
   CHAR_INFO consoleBuffer[WIDTH * HEIGHT];
 
   void init() {
-    SetConsoleTitle("RPGProto");
+    SetConsoleTitle("Not Very Rogue Like");
 
     // Set window size
     SMALL_RECT newSize{ 0, 0, WIDTH - 1, HEIGHT - 1 };
@@ -124,6 +125,56 @@ namespace Console {
     // Flush input buffer so player has chance to hit a key.
     FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
     getch();
+  }
+
+  void drawString(int x, int y, const std::string& s, const Color& color) {
+    assert(x >= 0 && x <= WIDTH);
+    assert(y >= 0 && x <= HEIGHT);
+
+    auto output = GetStdHandle(STD_OUTPUT_HANDLE);
+    DWORD result{ 0 };
+    COORD pos{ x, y };
+
+    const char* str = s.c_str();
+    auto length = min(s.length(), WIDTH - x); // Don't write over edge of screen
+
+    WriteConsoleOutputCharacter(output, str, length, pos, &result);
+    FillConsoleOutputAttribute(output, color.Attribute, length, pos, &result);
+  }
+
+  constexpr int MIN_BOX_DIM = 2;
+  constexpr char HORIZONTAL = 0xCD;
+  constexpr char TOP_LEFT = 0xC9;
+  constexpr char TOP_RIGHT = 0xBB;
+  constexpr char VERTICAL = 0xBA;
+  constexpr char BOTTOM_LEFT = 0xC8;
+  constexpr char BOTTOM_RIGHT = 0xBC;
+  constexpr char EMPTY = 0x20;
+
+  void drawBox(int width, int height, int x, int y) {
+    assert(x >= 0 && x <= WIDTH);
+    assert(width + x <= WIDTH);
+    assert(y >= 0 && x <= HEIGHT);
+    assert(height + y <= HEIGHT);
+    assert(width >= MIN_BOX_DIM);
+    assert(height >= MIN_BOX_DIM);
+
+    std::string top(static_cast<size_t>(width), HORIZONTAL);
+    top[0] = TOP_LEFT;
+    top[width - 1] = TOP_RIGHT;
+    drawString(x, y, top, TEXT_COLOR);
+
+    std::string bottom(top);
+    bottom[0] = BOTTOM_LEFT;
+    bottom[width - 1] = BOTTOM_RIGHT;
+    drawString(x, y + height, bottom, TEXT_COLOR);
+
+    std::string mid(static_cast<size_t>(width), EMPTY);
+    mid[0] = VERTICAL;
+    mid[width - 1] = VERTICAL;
+    for (auto i = 1; i < height; ++i) {
+      drawString(x, y + i, mid, TEXT_COLOR);
+    }
   }
 
 }

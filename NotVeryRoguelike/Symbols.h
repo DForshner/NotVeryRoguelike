@@ -47,7 +47,15 @@ namespace Console {
   };
 
   const Symbol PLAYER{ CHAR_INFO{ 0x40, FOREGROUND_RED | FOREGROUND_GREEN } };
+
   const Symbol TREE{ CHAR_INFO{ 0x23, FOREGROUND_GREEN } };
+
   const Symbol WALL_V{ CHAR_INFO{ 0xBA } };
+
   const Symbol WALL_H{ CHAR_INFO{ 0xCD } };
+
+  const Color TEXT_COLOR { 
+    FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE |
+    FOREGROUND_INTENSITY | BACKGROUND_BLUE | BACKGROUND_INTENSITY 
+  };
 }

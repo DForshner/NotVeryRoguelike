@@ -23,6 +23,7 @@
 #include <string>
 
 #include "Tiles.h"
+#include "Symbols.h" 
 
 namespace Console {
 
@@ -36,4 +37,6 @@ namespace Console {
     int width, int height);
 
   void displayDialog(std::string name, std::string msg);
+
+  void drawBox(int width, int height, int x, int y);
 }
