@@ -28,6 +28,9 @@
 #include "Music.h"
 #include "Menu.h"
 
+const int WIDTH{ 80 };
+const int HEIGHT{ 45 };
+
 namespace Game {
 
   constexpr int PLAYER_START_X = 25;
@@ -42,11 +45,10 @@ namespace Game {
       _player(Console::PLAYER, { PLAYER_START_X, PLAYER_START_Y }),
       _map(std::string{ DEFAULT_MAP }),
       _needsRedraw(true), // Initial map draw
-      _drawMenu(false),
+      _playerPaused(false),
       _distribution(0, 3)
     {
       _map.load();
-      _music.play(DEFAULT_SONG);
 
       //std::default_random_engine generator();
       //std::uniform_real_distribution<int> distribution(0, 11);
@@ -55,28 +57,26 @@ namespace Game {
 
     bool isPlayerAlive() const { return _player.isAlive(); }
 
-    void draw();
-
-    void handleInput(Event event);
+    std::vector<Event> handleEvents(std::vector<Event>& events);
 
     void updateNPCs();
 
   private:
     Player _player;
     Map _map;
-    Music _music;
-    Menu _menu;
     std::default_random_engine _generator;
     std::uniform_int_distribution<int> _distribution;
 
     bool _needsRedraw;
-    bool _drawMenu;
+    bool _playerPaused;
 
     void handlePlayerMove(Console::Position newPosition);
     void handleInsert(Console::Position position);
     int genRandZeroToThree() { return _distribution(_generator); }
 
     void interactWithNPC(const Console::Position& pos);
+    void handleEvent(Event e, std::vector<Event>& toSchedule);
+    void draw();
   };
 
 }

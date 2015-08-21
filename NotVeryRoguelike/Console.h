@@ -39,4 +39,6 @@ namespace Console {
   void displayDialog(std::string name, std::string msg);
 
   void drawBox(int width, int height, int x, int y);
+
+  void drawString(int x, int y, const std::string& s, const Color& color);
 }

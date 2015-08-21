@@ -75,7 +75,7 @@ namespace Console {
 
   void drawTiles(
     const std::vector<Game::Tile>& background,
-    const std::vector<std::vector<Game::Tile>*>& foreground 
+    const std::vector<std::vector<Game::Tile>*>& foreground
     , int width, int height) {
 
     // Here we go through our normal map tile list and add them to our drawing screen buffer
@@ -107,7 +107,7 @@ namespace Console {
     HANDLE hOutput = GetStdHandle(STD_OUTPUT_HANDLE);
     DWORD dwResult = 0;
 
-    WORD dialogColor = 
+    WORD dialogColor =
       FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY | // White 
       BACKGROUND_BLUE | BACKGROUND_INTENSITY; // Intense Blue
 
@@ -167,14 +167,15 @@ namespace Console {
     std::string bottom(top);
     bottom[0] = BOTTOM_LEFT;
     bottom[width - 1] = BOTTOM_RIGHT;
-    drawString(x, y + height, bottom, TEXT_COLOR);
+    drawString(x, y + (height - 1), bottom, TEXT_COLOR);
 
     std::string mid(static_cast<size_t>(width), EMPTY);
     mid[0] = VERTICAL;
     mid[width - 1] = VERTICAL;
-    for (auto i = 1; i < height; ++i) {
+    for (auto i = 1; i < (height - 1); ++i) {
       drawString(x, y + i, mid, TEXT_COLOR);
     }
   }
+
 
 }

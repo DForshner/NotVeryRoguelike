@@ -23,21 +23,39 @@
 namespace Game {
 
   void World::draw() {
+    _map.draw();
+    Console::draw(Console::PLAYER, _player.getPosition());
+  }
+
+  std::vector<Event> World::handleEvents(std::vector<Event>& events) {
+    std::vector<Event> toSchedule;
+
+    for (auto& event : events) {
+      handleEvent(event, toSchedule);
+    }
 
     if (_needsRedraw) {
-      _map.draw();
+      toSchedule.emplace_back(Event{ EventTypes::REQUEST_MAP_REDRAW });
       _needsRedraw = false;
     }
 
-    Console::draw(Console::PLAYER, _player.getPosition());
-
-    if (_drawMenu) {
-      // Draw menu
-    }
+    return std::move(toSchedule);
   }
 
-  void World::handleInput(Event event) {
+  void World::handleEvent(Event event, std::vector<Event>& toSchedule) {
+    if (_playerPaused && event.Type != EventTypes::PLAYER_RESUME_INPUT) {
+      return;
+    } else {
+      _playerPaused = false;
+    }
+
     switch (event.Type) {
+      case EventTypes::REQUEST_MAP_REDRAW:
+        draw();
+        break;
+      case EventTypes::PLAYER_PAUSE_INPUT:
+        _playerPaused = true;
+        break;
       case EventTypes::UP:
         handlePlayerMove(_player.getPosition(Directions::UP));
         break;
@@ -52,9 +70,6 @@ namespace Game {
         break;
       case EventTypes::SPACE:
         handleInsert(_player.getPosition());
-        break;
-      case EventTypes::ESCAPE:
-        _menu.launchMenu();
         break;
     }
   }

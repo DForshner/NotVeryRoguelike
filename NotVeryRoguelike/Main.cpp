@@ -18,31 +18,59 @@
 
 #include "World.h"
 #include "Input.h" 
+#include "Menu.h"
+#include <chrono>
+
+const int WIDTH2{ 80 };
+const int HEIGHT2{ 45 };
+
+typedef std::chrono::duration<long, std::ratio<1, 60>> sixtieths_of_a_sec;
+typedef std::chrono::high_resolution_clock Clock;
 
 int main()
 {
+  auto kMaxDeltatime = sixtieths_of_a_sec{ 1 };
+
   Console::init();
 
   Console::Input input;
 
-  Console::drawBox(5, 5, 5, 5);
+  //menu.drawMessageBox("This is a test. aaaaaaaaaaaaaaaaaaaaaaa bbbbbbbbbBBbbbbbbbbb ccccccccCCcccccccccc ddddddDDdddddddddd eeeeeeeeeeeeeeeeee ffffffffffffffff ggggggggggggggggg");
+  //menu.drawMessageBox("This is a test.");
+  //menu.drawMessageBox("");
+  //Console::drawBox(5, 5, 5, 5);
+  //Console::drawBox(2, 2, 5, 5);
 
-  return 0;
-
+  static std::vector<Event> toProcess;
+  Game::Menu menu(WIDTH2, HEIGHT2);
   Game::World world;
-  world.draw();
 
+  toProcess.emplace_back(Event{ EventTypes::REQUEST_MAP_REDRAW });
+
+  auto lastEndTime = Clock::now();
   while (world.isPlayerAlive()) {
 
-    auto event = input.checkInput();
-    if (event.Type == EventTypes::ESCAPE) { break; } // TODO: Cleanup
-    if (event.Type != EventTypes::NOOP) {
-      world.handleInput(event);
+    auto newEndTime = Clock::now();
+    auto frameTime = newEndTime - lastEndTime;
+    lastEndTime = newEndTime;
+    if (frameTime.count() == 0) { continue; }
+
+    auto inputEvent = input.checkInput();
+    if (inputEvent.Type != EventTypes::NOOP) {
+      toProcess.emplace_back(inputEvent);
     }
 
-    world.draw();
     world.updateNPCs();
-    
+      
+    if (!toProcess.empty()) {
+      auto menuEvents = menu.handleEvents(toProcess);
+      auto worldEvents = world.handleEvents(toProcess);
+
+      toProcess.clear(); // Clear handled events
+      toProcess.reserve(menuEvents.size() + worldEvents.size());
+      if (!menuEvents.empty()) { toProcess.insert(toProcess.end(), menuEvents.begin(), menuEvents.end()); }
+      if (!worldEvents.empty()) { toProcess.insert(toProcess.end(), worldEvents.begin(), worldEvents.end()); }
+    }
   }
 
 	return 1;
