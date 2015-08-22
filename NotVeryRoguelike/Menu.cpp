@@ -42,18 +42,50 @@ namespace Game {
         drawMainMenu();
         break;
       case MenuTypes::INVENTORY:
+        drawInventoryMenu();
+        break;
+      case MenuTypes::EDITOR:
+        drawEditorMenu();
         break;
     }
   }
 
   void Menu::drawMainMenu() {
-
     std::vector<MenuItem> items { 
       { "Inventory", { EventTypes::MENU_INVENTORY_SELECTED } },
+      { "Editor", { EventTypes::MENU_EDITOR_SELECTED } },
       { "Load", { EventTypes::MENU_LOAD_SELECTED } },
       { "Save", { EventTypes::MENU_SAVE_SELECTED } },
       { "Quit", { EventTypes::MENU_EXIT_SELECTED } }
     };
+    _currentItems = std::move(items);
+    drawMenu(_currentItems);
+  }
+
+  void Menu::drawInventoryMenu() {
+    std::vector<MenuItem> items { 
+      { "Use", { EventTypes::NOOP} },
+      { "Equip", { EventTypes::NOOP} },
+      { "Unequip", { EventTypes::NOOP} },
+      { "Drop", { EventTypes::NOOP} }
+    };
+    _currentItems = std::move(items);
+    drawMenu(_currentItems);
+  }
+
+  void Menu::drawEditorMenu() {
+    std::vector<MenuItem> items { 
+      { "Tile", { EventTypes::NOOP} },
+      { "Monster", { EventTypes::NOOP} },
+      { "NPC", { EventTypes::NOOP} },
+      { "Item", { EventTypes::NOOP} },
+      { "Exit", { EventTypes::NOOP} }
+    };
+    _currentItems = std::move(items);
+    drawMenu(_currentItems);
+  }
+
+  void Menu::drawMenu(const std::vector<MenuItem>& items) {
 
     auto maxTextWidthElement = std::max_element(items.cbegin(), items.cend(),
       [](MenuItem a, MenuItem b) { return a.Name.length() < b.Name.length(); });
@@ -156,11 +188,18 @@ namespace Game {
         _menuIdx += 1;
         _needsRedraw = true;
         break;
-      case EventTypes::LEFT:
+      case EventTypes::SPACE: {
+        auto selected = _currentItems[_menuIdx];
+        toSchedule.emplace_back(selected.Trigger);
         break;
-      case EventTypes::RIGHT:
+      }
+      case EventTypes::MENU_INVENTORY_SELECTED:
+        _current = MenuTypes::INVENTORY;
+        draw();
         break;
-      case EventTypes::SPACE:
+      case EventTypes::MENU_EDITOR_SELECTED:
+        _current = MenuTypes::EDITOR;
+        draw();
         break;
       case EventTypes::REQUEST_MENU_REDRAW:
         draw();

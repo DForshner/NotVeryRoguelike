@@ -35,12 +35,6 @@ int main()
 
   Console::Input input;
 
-  //menu.drawMessageBox("This is a test. aaaaaaaaaaaaaaaaaaaaaaa bbbbbbbbbBBbbbbbbbbb ccccccccCCcccccccccc ddddddDDdddddddddd eeeeeeeeeeeeeeeeee ffffffffffffffff ggggggggggggggggg");
-  //menu.drawMessageBox("This is a test.");
-  //menu.drawMessageBox("");
-  //Console::drawBox(5, 5, 5, 5);
-  //Console::drawBox(2, 2, 5, 5);
-
   static std::vector<Event> toProcess;
   Game::Menu menu(WIDTH2, HEIGHT2);
   Game::World world;

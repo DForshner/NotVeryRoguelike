@@ -28,7 +28,8 @@ namespace Game {
   enum class MenuTypes {
     NONE,
     MAIN,
-    INVENTORY
+    INVENTORY,
+    EDITOR 
   };
 
   struct MenuItem {
@@ -55,14 +56,20 @@ namespace Game {
     int _height{ 0 };
 
     MenuTypes _current;
+    std::vector<MenuItem> _currentItems;
 
     int _menuIdx{ 0 };
     bool _needsRedraw{ true };
 
     void handleEvent(Event e, std::vector<Event>& toSchedule);
+
     void drawMainMenu();
+    void drawInventoryMenu();
+    void drawEditorMenu();
+
     void handleMenuShowHide(Event event);
     void draw();
+    void drawMenu(const std::vector<MenuItem>& items);
   };
 
 }
