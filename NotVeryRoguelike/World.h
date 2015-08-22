@@ -69,6 +69,7 @@ namespace Game {
 
     bool _needsRedraw;
     bool _playerPaused;
+    int _selectedTile = 1;
 
     void handlePlayerMove(Console::Position newPosition);
     void handleInsert(Console::Position position);

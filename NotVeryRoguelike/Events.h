@@ -18,20 +18,31 @@
 
 #pragma once
 
+#include <string>
+#include <memory>
+
 enum class EventTypes {
   NOOP,
+
   UP,
   DOWN,
   LEFT,
   RIGHT,
   ESCAPE,
   SPACE,
+
   MOUSE_LEFT,
   MOUSE_RIGHT,
   MOUSE_MOVE,
 
   MENU_INVENTORY_SELECTED,
+  MENU_INVENTORY_USE_SELECTED,
+
   MENU_EDITOR_SELECTED,
+  MENU_EDITOR_TILE_SELECTED,
+  MENU_EDITOR_MONSTER_SELECTED,
+
+  EDITOR_TILE_SELECTED,
 
   MENU_LOAD_SELECTED,
   MENU_SAVE_SELECTED,
@@ -44,6 +55,24 @@ enum class EventTypes {
   REQUEST_MENU_REDRAW 
 };
 
+enum ValueType {
+  NONE,
+  INT_TYPE,
+  STRING_TYPE
+};
+
+struct Value {
+  ValueType type;
+  union {
+    int intValue;
+    //std::unique_ptr<std::string> stringValue;
+  };
+};
+
 struct Event {
-  EventTypes Type;
+  EventTypes type;
+  Value value;
+  
+  Event(EventTypes type) : type(type), value{ ValueType::NONE } {}
+  Event(EventTypes type, Value value) : type(type), value(value) {}
 };

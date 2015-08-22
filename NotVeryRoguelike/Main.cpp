@@ -50,7 +50,7 @@ int main()
     if (frameTime.count() == 0) { continue; }
 
     auto inputEvent = input.checkInput();
-    if (inputEvent.Type != EventTypes::NOOP) {
+    if (inputEvent.type != EventTypes::NOOP) {
       toProcess.emplace_back(inputEvent);
     }
 

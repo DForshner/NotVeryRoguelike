@@ -29,7 +29,8 @@ namespace Game {
     NONE,
     MAIN,
     INVENTORY,
-    EDITOR 
+    EDITOR,
+    EDITOR_TILE
   };
 
   struct MenuItem {
@@ -66,6 +67,7 @@ namespace Game {
     void drawMainMenu();
     void drawInventoryMenu();
     void drawEditorMenu();
+    void drawEditorTileMenu();
 
     void handleMenuShowHide(Event event);
     void draw();

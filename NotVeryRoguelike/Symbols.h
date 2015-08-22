@@ -50,6 +50,8 @@ namespace Console {
 
   const Symbol TREE{ CHAR_INFO{ 0x23, FOREGROUND_GREEN } };
 
+  const Symbol GRASS{ CHAR_INFO{ 0xB0, FOREGROUND_GREEN | BACKGROUND_GREEN | BACKGROUND_INTENSITY } };
+
   const Symbol WALL_V{ CHAR_INFO{ 0xBA } };
 
   const Symbol WALL_H{ CHAR_INFO{ 0xCD } };

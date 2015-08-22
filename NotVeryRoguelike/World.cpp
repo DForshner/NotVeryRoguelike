@@ -16,9 +16,9 @@
 * under the License.
 */
 
-#include <algorithm>>
-
 #include "World.h"
+#include <algorithm>>
+#include <assert.h>
 
 namespace Game {
 
@@ -42,14 +42,22 @@ namespace Game {
     return std::move(toSchedule);
   }
 
-  void World::handleEvent(Event event, std::vector<Event>& toSchedule) {
-    if (_playerPaused && event.Type != EventTypes::PLAYER_RESUME_INPUT) {
+  void World::handleEvent(Event evt, std::vector<Event>& toSchedule) {
+
+    switch (evt.type) {
+      case EventTypes::EDITOR_TILE_SELECTED:
+        assert(evt.value.type == ValueType::INT_TYPE);
+        _selectedTile = evt.value.intValue;
+        break;
+    }
+
+    if (_playerPaused && evt.type != EventTypes::PLAYER_RESUME_INPUT) {
       return;
     } else {
       _playerPaused = false;
     }
 
-    switch (event.Type) {
+    switch (evt.type) {
       case EventTypes::REQUEST_MAP_REDRAW:
         draw();
         break;
@@ -102,8 +110,15 @@ namespace Game {
   }
 
   void World::handleInsert(Console::Position position) {
-    Tile tree{ position, Console::TREE, false };
-    _map.insert(tree, position);
+    // TODO: Load tiles into a lookup table
+    switch (_selectedTile) {
+      case 1:
+        _map.insert(Tile{ position, Console::TREE, false }, position);
+        break;
+      case 2:
+        _map.insert(Tile{ position, Console::GRASS, false }, position);
+        break;
+    }
   }
 
   void World::updateNPCs() {

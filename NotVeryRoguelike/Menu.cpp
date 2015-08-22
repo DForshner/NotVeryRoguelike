@@ -34,21 +34,7 @@ namespace Game {
   constexpr char* CURSOR{ " > " };
   constexpr int CURSOR_MARGIN{ 3 };
 
-  void Menu::draw() {
-    switch (_current) {
-      case MenuTypes::NONE:
-        break;
-      case MenuTypes::MAIN:
-        drawMainMenu();
-        break;
-      case MenuTypes::INVENTORY:
-        drawInventoryMenu();
-        break;
-      case MenuTypes::EDITOR:
-        drawEditorMenu();
-        break;
-    }
-  }
+  // TODO: Menu code is similar - strategy pattern?
 
   void Menu::drawMainMenu() {
     std::vector<MenuItem> items { 
@@ -64,7 +50,7 @@ namespace Game {
 
   void Menu::drawInventoryMenu() {
     std::vector<MenuItem> items { 
-      { "Use", { EventTypes::NOOP} },
+      { "Use", { EventTypes::MENU_INVENTORY_USE_SELECTED } },
       { "Equip", { EventTypes::NOOP} },
       { "Unequip", { EventTypes::NOOP} },
       { "Drop", { EventTypes::NOOP} }
@@ -75,14 +61,42 @@ namespace Game {
 
   void Menu::drawEditorMenu() {
     std::vector<MenuItem> items { 
-      { "Tile", { EventTypes::NOOP} },
-      { "Monster", { EventTypes::NOOP} },
+      { "Tile", { EventTypes::MENU_EDITOR_TILE_SELECTED } },
+      { "Monster", { EventTypes::MENU_EDITOR_MONSTER_SELECTED } },
       { "NPC", { EventTypes::NOOP} },
       { "Item", { EventTypes::NOOP} },
-      { "Exit", { EventTypes::NOOP} }
+      { "Entrance/Exit", { EventTypes::NOOP} }
     };
     _currentItems = std::move(items);
     drawMenu(_currentItems);
+  }
+
+  void Menu::drawEditorTileMenu() {
+    std::vector<MenuItem> items { 
+      { "Tree", Event{ EventTypes::EDITOR_TILE_SELECTED, Value{ ValueType::INT_TYPE, 1 } } },
+      { "Grass", Event{ EventTypes::EDITOR_TILE_SELECTED, Value{ ValueType::INT_TYPE, 2 } } },
+    };
+    _currentItems = std::move(items);
+    drawMenu(_currentItems);
+  }
+
+  void Menu::draw() {
+    switch (_current) {
+      case MenuTypes::NONE:
+        break;
+      case MenuTypes::MAIN:
+        drawMainMenu();
+        break;
+      case MenuTypes::INVENTORY:
+        drawInventoryMenu();
+        break;
+      case MenuTypes::EDITOR:
+        drawEditorMenu();
+        break;
+      case MenuTypes::EDITOR_TILE:
+        drawEditorTileMenu();
+        break;
+    }
   }
 
   void Menu::drawMenu(const std::vector<MenuItem>& items) {
@@ -145,6 +159,8 @@ namespace Game {
   }
 
   void Menu::handleMenuShowHide(Event event) {
+    // TODO: Store menus on a stack and pop to return to previous menu.
+
     switch (_current) {
       case MenuTypes::NONE:
         _current = MenuTypes::MAIN;
@@ -159,11 +175,23 @@ namespace Game {
         _menuIdx = 0;
         _needsRedraw = true;
         break;
+      case MenuTypes::EDITOR:
+        _current = MenuTypes::MAIN;
+        _menuIdx = 0;
+        _needsRedraw = true;
+        break;
+      case MenuTypes::EDITOR_TILE:
+        _current = MenuTypes::MAIN;
+        _menuIdx = 0;
+        _needsRedraw = true;
+        break;
     }
   }
 
   void Menu::handleEvent(Event e, std::vector<Event>& toSchedule) {
-    if (e.Type == EventTypes::ESCAPE) {
+    // TODO: State pattern
+
+    if (e.type == EventTypes::ESCAPE) {
       handleMenuShowHide(e);
 
       if (_current != MenuTypes::NONE) {
@@ -179,7 +207,7 @@ namespace Game {
       return;
     }
 
-    switch (e.Type) {
+    switch (e.type) {
       case EventTypes::UP:
         _menuIdx -= 1;
         _needsRedraw = true;
@@ -195,10 +223,17 @@ namespace Game {
       }
       case EventTypes::MENU_INVENTORY_SELECTED:
         _current = MenuTypes::INVENTORY;
+        _menuIdx = 0;
         draw();
         break;
       case EventTypes::MENU_EDITOR_SELECTED:
         _current = MenuTypes::EDITOR;
+        _menuIdx = 0;
+        draw();
+        break;
+      case EventTypes::MENU_EDITOR_TILE_SELECTED:
+        _current = MenuTypes::EDITOR_TILE;
+        _menuIdx = 0;
         draw();
         break;
       case EventTypes::REQUEST_MENU_REDRAW:
