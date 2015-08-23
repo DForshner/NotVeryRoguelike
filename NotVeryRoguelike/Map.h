@@ -27,6 +27,8 @@
 
 namespace Game {
 
+  constexpr int WINDOW_WIDTH{ 80 }, WINDOW_HEIGHT{ 45 };
+
   class Map {
 
   public:
@@ -39,8 +41,8 @@ namespace Game {
 
     void draw();
 
-    int getWidth() const { return 80; }
-    int getHeight() const { return 45; }
+    int getWidth() const noexcept { return WINDOW_WIDTH; }
+    int getHeight() const noexcept { return WINDOW_HEIGHT; }
 
     bool isOccupied(const Console::Position& position) const;
 

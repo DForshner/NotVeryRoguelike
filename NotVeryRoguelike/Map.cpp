@@ -134,7 +134,7 @@ namespace Game {
     std::default_random_engine generator(seed1);
     std::uniform_int_distribution<int> distribution(0, 5000);
 
-    for (auto i = 0; i < _npcs.size(); ++i) {
+    for (auto i(0u); i < _npcs.size(); ++i) {
       auto r = distribution(generator);
 
       if (r % 500 != 0) { continue; }

@@ -31,17 +31,16 @@ namespace Game {
 
   class Player {
   public:
-
     Player(Console::Symbol image, Console::Position position);
 
-    Console::Position getPosition() const;
-    Console::Position getPosition(const Directions& direction) const;
+    Console::Position getPosition() const noexcept;
+    Console::Position getPosition(const Directions& direction) const noexcept;
 
     void move(Console::Position position);
 
     void undoMove() { _position = _lastPosition; }
 
-    bool isAlive() const { return _health > 0; }
+    bool isAlive() const noexcept { return _health > 0; }
 
   private:
     Console::Position _position;

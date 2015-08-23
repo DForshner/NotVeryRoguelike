@@ -23,8 +23,21 @@
 namespace Game {
 
   void World::draw() {
+    //_manager.draw();
+    //_window.draw();
+
     _map.draw();
     Console::draw(Console::PLAYER, _player.getPosition());
+  }
+
+  void update() {
+    //_manager.refresh();
+    //_manager.update(step);
+
+    //auto& npcs(_manager.getEntitiesByGroup(Groups::NPCS);
+    //for (auto& npc : npcs) {
+    //auto& monsters(_manager.getEntitiesByGroup(Groups::NPCS);
+    //for (auto& monster : monsters)
   }
 
   std::vector<Event> World::handleEvents(std::vector<Event>& events) {

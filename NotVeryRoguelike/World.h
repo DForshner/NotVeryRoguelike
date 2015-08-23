@@ -30,8 +30,10 @@
 
 const int WIDTH{ 80 };
 const int HEIGHT{ 45 };
+using FrameTime = float;
 
 namespace Game {
+
 
   constexpr int PLAYER_START_X = 25;
   constexpr int PLAYER_START_Y = 25;

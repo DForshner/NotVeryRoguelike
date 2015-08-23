@@ -18,11 +18,13 @@
 
 #pragma once
 
+#include "Symbols.h"
+
 #include <string>
 #include <vector>
 #include <stdio.h>
-
-#include "Symbols.h"
+#include <iomanip>
+#include <iterator>
 
 namespace Game {
 
@@ -77,12 +79,37 @@ namespace Game {
 
   class Npc {
   public:
+    Npc() {}
     Npc(std::string name, std::string msg) : _name(name), _msg(msg) {}
 
     std::string getName() const { return _name; }
     std::string getMessage() const { return _msg; }
 
+    friend std::ostream & operator<<(std::ostream & sout, const Npc& foo) {
+      sout
+        << "{\n"
+          << "id: " << foo.id << "\n"
+          << "name: " << std::quoted(foo._name) << "\n"
+          << "msg: " << std::quoted(foo._msg) << "\n"
+        << "},\n";
+      return sout;
+    }
+
+    friend std::istream& operator>>(std::istream& sin, Npc& npc) {
+      sin.ignore(5, '{');   // ignore until opening bracket 
+
+      std::string chunk;
+      while (chunk != "},") {
+        sin >> chunk;
+        if (chunk == "id:") { sin >> npc.id; }
+        else if (chunk == "name:") { sin >> std::quoted(npc._name); }
+        else if (chunk == "msg:") { sin >> std::quoted(npc._msg); }
+      }
+      return sin;
+    }
+
   private:
+    int id;
     std::string _name;
     std::string _msg;
   };
