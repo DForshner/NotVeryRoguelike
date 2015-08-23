@@ -115,7 +115,7 @@ namespace Game {
 
     auto textStartX = boxStartX + 1;
     auto textStartY = boxStartY + 1;
-    for (auto i = 0; i < items.size(); ++i) {
+    for (auto i(0u); i < items.size(); ++i) {
       Console::drawString(textStartX + CURSOR_MARGIN, (textStartY + i), items[i].Name, Console::MENU_COLOR);
     }
       
@@ -146,7 +146,7 @@ namespace Game {
     // #------#
     // | TEXT |
     // #------#
-    for (auto i = 0; i < boxHeight - 2; ++i) {
+    for (auto i(0u); i < boxHeight - 2; ++i) {
       auto lineStart = i * textWidth;
       auto fullLineEnd = lineStart + textWidth;
       auto lineEnd = min(fullLineEnd, msg.length());
@@ -245,7 +245,7 @@ namespace Game {
   std::vector<Event> Menu::handleEvents(std::vector<Event>& events) {
     std::vector<Event> toSchedule;
 
-    for (auto i = 0; i < events.size(); ++i) {
+    for (auto i(0u); i < events.size(); ++i) {
       handleEvent(events[i], toSchedule);
     }
 
