@@ -1,6 +1,25 @@
+/* Licensed to the Apache Software Foundation(ASF) under one
+* or more contributor license agreements.See the NOTICE file
+* distributed with this work for additional information
+* regarding copyright ownership.The ASF licenses this file
+* to you under the Apache License, Version 2.0 (the
+* "License"); you may not use this file except in compliance
+* with the License.You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing,
+* software distributed under the License is distributed on an
+* "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+* KIND, either express or implied.See the License for the
+* specific language governing permissions and limitations
+* under the License.
+*/
+
 #pragma once
 
 #include "Component.h"
+#include "Constants.h"
 
 #include <vector>
 #include <memory>
@@ -17,9 +36,6 @@ namespace Game {
     NPC,
     MONSTER
   };
-
-  using ComponentId = std::size_t; // Typedef
-  using GroupId = std::size_t; // Typedef
 
   namespace Internal {
     // Returns a globally unique id each call (0, 1, etc...)
@@ -38,76 +54,57 @@ namespace Game {
     return typeId;
   }
 
-  constexpr std::size_t MAX_COMPONENTS{ 32 };
-  using ComponentBitset = std::bitset<MAX_COMPONENTS>; // Typedef
   using ComponentArray = std::array<Component*, MAX_COMPONENTS>; // Typedef
 
-  constexpr std::size_t MAX_GROUPS{ 32 };
-  using GroupBitset = std::bitset<MAX_GROUPS>; // Typedef
-
-  class Manager; // foward declare
+  class EntityManager; // forward declaration
 
   // An aggregate of components
   class Entity {
   public:
-    Entity(Manager& manager) : _manager(manager) {}
+    Entity(EntityManager& manager) : _manager(manager) {}
 
-    void update(float mFT) { for (auto& c : _components) c->update(mFT); }
-    void draw() { for (auto& c : _components) c->draw(); }
+    void init();
+    void update(float mFT);
+    void draw();
+    void cleanup();
 
     bool isAlive() const { return _isAlive; }
     void destroy() { _isAlive = false; }
 
-    template<typename T> bool hasComponent() const noexcept {
+    template<typename T> 
+    bool hasComponent() const noexcept {
       return ComponentBitset[getComponentId<T>()];
     }
 
-    // T is type of derived componet to add 
+    template<typename T>
+    void addComponent(std::unique_ptr<T> c) {}
+
+    // T is type of derived component to add 
     // TArgs is a parameter pack to pass to component T's constructor 
-    template<typename T, typename ... TArgs>
-    T& addComponent(TArgs&&... mArgs) {
-      assert(!hasComponent<T>());
+    //template<typename T, typename... TArgs>
+    //void addComponent(TArgs&&... mArgs);
 
-      // Allocate component of type T perfectly forwarding passed args to its constructor.
-      T* c(new T(std::forward<TArgs>(mArgs)...));
-      c->entity = this; // Set component's parent entity
-      auto ptr = std::make_unique(c);
-      _components.emplace_back(std::move(ptr)); // move because unique cannot be copied
+    template<typename T> 
+    T& getComponent() const;
 
-      _componentArray[getComponentId<T>()] = c;
-      _componentBitset[getComponentId<T>()] = true;
-
-      c->init();
-
-      return *c; // return reference to the newly created component
+    bool hasGroup(GroupId id) const noexcept {
+      return _groupBitset[id];
     }
 
-    template<typename T> T& getComponent() const {
-      assert(hasComponent<T>());
-      auto ptr(componentArray[getComponentId<T>()]);
-      return *static_cast<T*>(ptr); // cast to derived component type
-    }
-
-    template<typename T> bool hasGroup(GroupId id) const noexcept {
-      return GroupBitset[id];
-    }
-
-    void addGroup(GroupId id) noexcept {
-      _groupBitset[id] = true;
-      _manager.addToGroup(this, id);
-    }
+    void addGroup(GroupId id) noexcept {};
 
     void deleteGroup(GroupId groupId) noexcept {
       _groupBitset[groupId] = false;
     }
 
   private:
-    Manager& _manager;
+    EntityManager& _manager;
 
     bool _isAlive{ true };
+    bool _isInitialized{ false };
     std::vector<std::unique_ptr<Component>> _components;
 
-    // Component bitset (check if compoent has entity with simple bitwise AND):
+    // Component bitset (check if component has entity with simple bitwise AND):
     // [ 0 0 0 0 0 1 0 0 1 ]
     //             |     |
     //             |     \_ Entity has component type #0 

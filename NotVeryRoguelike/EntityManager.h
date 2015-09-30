@@ -18,19 +18,37 @@
 
 #pragma once
 
+#include "Constants.h"
+#include "Entity.h"
+
+#include <vector>
+#include <memory>
+#include <array>
+
 namespace Game {
 
-  class Entity; // Forward declaration
+  // An aggregate of entities.  Handles entity retrieval, addition, and removal
+  // from game world.
+  struct EntityManager {
+  public:
+    EntityManager() {}
 
-  struct Component {
-    Entity* entity{ nullptr };
+    void update(float mFT);
+    void draw();
 
-    virtual void init() { /* */ }
-    virtual void update(float mFT) { /* */ }
-    virtual void draw() { /* */}
-    virtual void cleanup() { /* */ }
+    Entity& addEntity();
 
-    virtual ~Component() { /* */ }
+    void addToGroup(Entity* entity, GroupId groupId);
+    std::vector<Entity*>& getEntitiesByGroup(GroupId groupId);
+
+  private:
+    std::vector<std::unique_ptr<Entity>> _entities;
+
+    // Array indexed by group id.  Each array bucket contains a vector of
+    // entities that are currently in that group.
+    std::array<std::vector<Entity*>, MAX_GROUPS> _groupedEntities;
+
+    void refresh();
   };
 
 }
