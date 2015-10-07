@@ -6,7 +6,7 @@
 * "License"); you may not use this file except in compliance
 * with the License.You may obtain a copy of the License at
 *
-* http ://www.apache.org/licenses/LICENSE-2.0
+* http://www.apache.org/licenses/LICENSE-2.0
 *
 * Unless required by applicable law or agreed to in writing,
 * software distributed under the License is distributed on an
@@ -27,6 +27,8 @@
 #include "Console.h"
 #include "Music.h"
 #include "Menu.h"
+#include "EntityManager.h"
+#include "MapLoader.h"
 
 const int WIDTH{ 80 };
 const int HEIGHT{ 45 };
@@ -47,10 +49,10 @@ namespace Game {
       _player(Console::PLAYER, { PLAYER_START_X, PLAYER_START_Y }),
       _map(std::string{ DEFAULT_MAP }),
       _needsRedraw(true), // Initial map draw
-      _playerPaused(false),
-      _distribution(0, 3)
+      _playerPaused(false)
+      //_distribution(0, 3)
     {
-      _map.load();
+      _map.load(_entities);
 
       //std::default_random_engine generator();
       //std::uniform_real_distribution<int> distribution(0, 11);
@@ -63,11 +65,14 @@ namespace Game {
 
     void updateNPCs();
 
+    void update();
+
   private:
     Player _player;
     Map _map;
-    std::default_random_engine _generator;
-    std::uniform_int_distribution<int> _distribution;
+    //std::default_random_engine _generator;
+    //std::uniform_int_distribution<int> _distribution;
+    EntityManager _entities;
 
     bool _needsRedraw;
     bool _playerPaused;
@@ -75,7 +80,7 @@ namespace Game {
 
     void handlePlayerMove(Console::Position newPosition);
     void handleInsert(Console::Position position);
-    int genRandZeroToThree() { return _distribution(_generator); }
+    //int genRandZeroToThree() { return _distribution(_generator); }
 
     void interactWithNPC(const Console::Position& pos);
     void handleEvent(Event e, std::vector<Event>& toSchedule);

@@ -6,7 +6,7 @@
 * "License"); you may not use this file except in compliance
 * with the License.You may obtain a copy of the License at
 *
-* http ://www.apache.org/licenses/LICENSE-2.0
+* http://www.apache.org/licenses/LICENSE-2.0
 *
 * Unless required by applicable law or agreed to in writing,
 * software distributed under the License is distributed on an
@@ -30,9 +30,11 @@ namespace Game {
     Console::draw(Console::PLAYER, _player.getPosition());
   }
 
-  void update() {
-    //_manager.refresh();
-    //_manager.update(step);
+  void World::update() {
+    _entities.refresh();
+
+    const int step = 10;
+    _entities.update(step);
 
     //auto& npcs(_manager.getEntitiesByGroup(Groups::NPCS);
     //for (auto& npc : npcs) {
@@ -116,7 +118,7 @@ namespace Game {
       _player.move(exit.getDestination());
       auto mapName = exit.getMapName();
       _map = Map{ mapName };
-      _map.load();
+      _map.load(_entities);
 
       _needsRedraw = true;
     }

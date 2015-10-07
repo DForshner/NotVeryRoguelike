@@ -35,6 +35,7 @@ namespace Game {
 
     void update(float mFT);
     void draw();
+    void refresh();
 
     Entity& addEntity();
 
@@ -47,8 +48,6 @@ namespace Game {
     // Array indexed by group id.  Each array bucket contains a vector of
     // entities that are currently in that group.
     std::array<std::vector<Entity*>, MAX_GROUPS> _groupedEntities;
-
-    void refresh();
   };
 
 }

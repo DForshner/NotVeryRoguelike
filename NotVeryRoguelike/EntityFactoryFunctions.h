@@ -25,12 +25,15 @@
 
 namespace Game {
 
-  Entity& createNpc(EntityManager& manager, int x, int y, std::string name, std::string msg) {
+  Entity& createNpc(EntityManager& manager, int x, int y, std::string name, std::string msg, int strength, int speed, CHAR_INFO tile, bool isSolid) {
     auto& entity(manager.addEntity());
 
     entity.addComponent(std::make_unique<PositionComponent>(x, y));
     entity.addComponent(std::make_unique<NameComponent>(name));
     entity.addComponent(std::make_unique<DialogComponent>(msg));
+    entity.addComponent(std::make_unique<StrengthComponent>(strength));
+    entity.addComponent(std::make_unique<SpeedComponent>(speed));
+    entity.addComponent(std::make_unique<TileComponent>(tile, isSolid));
 
     //entity.addComponent<Dependant>(10);
     //auto& dep = entity.getComponent<Dependant>();
@@ -41,10 +44,14 @@ namespace Game {
     return entity;
   }
 
-  Entity& createMonster(EntityManager& manager, int x, int y) {
+  Entity& createMonster(EntityManager& manager, int x, int y, std::string name, int speed, int health, CHAR_INFO tile, bool isSolid) {
     auto& entity(manager.addEntity());
 
     entity.addComponent(std::make_unique<PositionComponent>(x, y));
+    entity.addComponent(std::make_unique<NameComponent>(name));
+    entity.addComponent(std::make_unique<HealthComponent>(health, health));
+    entity.addComponent(std::make_unique<SpeedComponent>(speed));
+    entity.addComponent(std::make_unique<TileComponent>(tile, isSolid));
 
     return entity;
   }

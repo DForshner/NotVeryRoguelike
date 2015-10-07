@@ -84,14 +84,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AISystem.h" />
+    <ClInclude Include="BattleSystem.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Console.h" />
+    <ClInclude Include="Constants.h" />
     <ClInclude Include="DialogComponent.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityFactoryFunctions.h" />
+    <ClInclude Include="EventManager.h" />
     <ClInclude Include="Events.h" />
     <ClInclude Include="Input.h" />
-    <ClInclude Include="Manager.h" />
+    <ClInclude Include="EntityManager.h" />
+    <ClInclude Include="NullComponent.h" />
     <ClInclude Include="Persistence.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MapLoader.h" />
@@ -101,14 +106,14 @@
     <ClInclude Include="PositionComponent.h" />
     <ClInclude Include="Symbols.h" />
     <ClInclude Include="Tiles.h" />
+    <ClInclude Include="WanderComponent.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Component.cpp" />
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Input.cpp" />
-    <ClCompile Include="Manager.cpp" />
+    <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="Persistence.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Map.cpp" />

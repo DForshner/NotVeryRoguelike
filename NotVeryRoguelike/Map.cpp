@@ -6,7 +6,7 @@
 * "License"); you may not use this file except in compliance
 * with the License.You may obtain a copy of the License at
 *
-* http ://www.apache.org/licenses/LICENSE-2.0
+* http://www.apache.org/licenses/LICENSE-2.0
 *
 * Unless required by applicable law or agreed to in writing,
 * software distributed under the License is distributed on an
@@ -31,9 +31,8 @@
 
 namespace Game {
 
-
-  void Map::load() {
-    auto pack = MapLoader::load(_mapName);
+  void Map::load(EntityManager& entities) {
+    auto pack = MapLoader::load(_mapName, entities);
     _tiles.assign(pack.Tiles.begin(), pack.Tiles.end());
 
     _items.assign(pack.Items.begin(), pack.Items.end());
@@ -129,7 +128,8 @@ namespace Game {
   }
 
   void Map::updateNPCs() {
-    // TODO: Make more fancy
+
+    // TODO: Make more fancy :-)
     unsigned seed1 = std::chrono::system_clock::now().time_since_epoch().count();
     std::default_random_engine generator(seed1);
     std::uniform_int_distribution<int> distribution(0, 5000);

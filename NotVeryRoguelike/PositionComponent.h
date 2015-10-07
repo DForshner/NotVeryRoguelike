@@ -53,6 +53,11 @@ namespace Game {
   };
 
   struct HealthComponent : Component {
+    HealthComponent(int health, int maxHealth) : 
+      health(health),
+      maxHealth(maxHealth) 
+    {}
+
     int health{ 0 };
     int maxHealth{ 0 };
 
@@ -61,6 +66,16 @@ namespace Game {
       health += delta; 
       // if (health < 0) 
     }
+  };
+
+  struct StrengthComponent : Component {
+    StrengthComponent(int str) : strength(str) {}
+    int strength{ 0 };
+  };
+
+  struct SpeedComponent : Component {
+    SpeedComponent(int spd) : speed(spd) {}
+    int speed{ 0 };
   };
 
   struct ManaComponent : Component {
@@ -140,7 +155,6 @@ namespace Game {
   struct MagicSystem {
     // Summon example
     // EventPublisher.publish<EntityCreatedEvent>(args..);
-
   };
 
   struct Weapon {
@@ -177,6 +191,15 @@ namespace Game {
     DialogComponent(std::string m) : msg(std::move(m)) {}
 
     std::string msg;
+  };
+
+  struct TileComponent : Component {
+    TileComponent(CHAR_INFO tile, bool isSolid) : 
+      tile(tile), isSolid(isSolid) 
+    {}
+
+    CHAR_INFO tile;
+    bool isSolid;
   };
 
 }

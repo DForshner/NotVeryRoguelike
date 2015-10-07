@@ -18,27 +18,29 @@
 
 #pragma once
 
-#include <Windows.h>
-#include <memory>
-#include <string>
+#include "PositionComponent.h"
+#include "Component.h"
+#include "Entity.h"
 
-#include "Tiles.h"
-#include "Symbols.h" 
+#include <functional>
+#include <algorithm> 
 
-namespace Console {
+namespace Game {
 
-  void init();
+  struct WanderComponent : Component {
+    PositionComponent* _position{ nullptr };
+    int _someValue;
 
-  void draw(const Symbol& symbol, const Position& position);
+    WanderComponent(const int& someValue) : _someValue{ someValue } {}
 
-  void drawTiles(
-    const std::vector<Game::Tile>& tiles, 
-    const std::vector<std::vector<Game::Tile>*>& foreground,
-    int width, int height);
+    void init() override {
+      _position = &entity->getComponent<PositionComponent>();
+    }
 
-  void displayDialog(std::string name, std::string msg);
+    void update(float mFT) override {
 
-  void drawBox(int width, int height, int x, int y);
+    }
 
-  void drawString(int x, int y, const std::string& s, const Color& color);
+  };
+
 }

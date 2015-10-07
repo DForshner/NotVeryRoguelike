@@ -6,7 +6,7 @@
 * "License"); you may not use this file except in compliance
 * with the License.You may obtain a copy of the License at
 *
-* http ://www.apache.org/licenses/LICENSE-2.0
+* http://www.apache.org/licenses/LICENSE-2.0
 *
 * Unless required by applicable law or agreed to in writing,
 * software distributed under the License is distributed on an
@@ -26,11 +26,11 @@ namespace Game {
     _health(50), _healthMax(50), _strength(3), _protection(3), _experience(0), _level(1), _gold(25) 
   {}
 
-  Console::Position Player::getPosition() const {
+  Console::Position Player::getPosition() const noexcept {
     return { _position.X, _position.Y };
   }
 
-  Console::Position Player::getPosition(const Directions& direction) const {
+  Console::Position Player::getPosition(const Directions& direction) const noexcept {
     switch (direction) {
       case Directions::UP:
         return { _position.X, _position.Y - 1 };
