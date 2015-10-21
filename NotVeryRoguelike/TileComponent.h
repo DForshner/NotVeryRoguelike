@@ -22,10 +22,12 @@
 
 namespace Game {
 
-  struct DialogComponent : Component {
-    DialogComponent(std::string m) : msg(std::move(m)) {}
+  struct TileComponent : Component {
+    TileComponent(CHAR_INFO tile, bool isSolid) :
+      tile(tile), isSolid(isSolid) {}
 
-    std::string msg;
+    CHAR_INFO tile;
+    bool isSolid;
   };
 
 }

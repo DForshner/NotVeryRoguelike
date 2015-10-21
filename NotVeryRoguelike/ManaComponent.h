@@ -20,12 +20,16 @@
 
 #include "Component.h"
 
+#include <functional>
+#include <algorithm>
+
 namespace Game {
 
-  struct DialogComponent : Component {
-    DialogComponent(std::string m) : msg(std::move(m)) {}
+  struct ManaComponent : Component {
+    int mana{ 0 };
+    int maxMana{ 0 };
 
-    std::string msg;
+    void setMana(int m) { mana = m; }
   };
 
 }

@@ -20,12 +20,21 @@
 
 #include "EntityManager.h"
 #include "Entity.h"
-#include "NullComponent.h"
+
 #include "PositionComponent.h"
+#include "WanderComponent.h"
+#include "StrengthComponent.h"
+#include "SpeedComponent.h"
+#include "TileComponent.h"
+#include "HealthComponent.h"
+#include "NameComponent.h"
+#include "DialogComponent.h"
+
+#include "Map.h"
 
 namespace Game {
 
-  Entity& createNpc(EntityManager& manager, int x, int y, std::string name, std::string msg, int strength, int speed, CHAR_INFO tile, bool isSolid) {
+  Entity& createNpc(EntityManager& manager, Map& map, int x, int y, std::string name, std::string msg, int strength, int speed, CHAR_INFO tile, bool isSolid) {
     auto& entity(manager.addEntity());
 
     entity.addComponent(std::make_unique<PositionComponent>(x, y));
@@ -33,7 +42,13 @@ namespace Game {
     entity.addComponent(std::make_unique<DialogComponent>(msg));
     entity.addComponent(std::make_unique<StrengthComponent>(strength));
     entity.addComponent(std::make_unique<SpeedComponent>(speed));
-    entity.addComponent(std::make_unique<TileComponent>(tile, isSolid));
+    //entity.addComponent(std::make_unique<TileComponent>(tile, isSolid));
+
+    //entity.addComponent(std::make_unique<WanderComponent>(map));
+
+    //WanderComponent test;
+
+    //auto test = new WanderComponent(map);
 
     //entity.addComponent<Dependant>(10);
     //auto& dep = entity.getComponent<Dependant>();
@@ -44,14 +59,14 @@ namespace Game {
     return entity;
   }
 
-  Entity& createMonster(EntityManager& manager, int x, int y, std::string name, int speed, int health, CHAR_INFO tile, bool isSolid) {
+  Entity& createMonster(EntityManager& manager, const Map& map, int x, int y, std::string name, int speed, int health, CHAR_INFO tile, bool isSolid) {
     auto& entity(manager.addEntity());
 
     entity.addComponent(std::make_unique<PositionComponent>(x, y));
     entity.addComponent(std::make_unique<NameComponent>(name));
     entity.addComponent(std::make_unique<HealthComponent>(health, health));
     entity.addComponent(std::make_unique<SpeedComponent>(speed));
-    entity.addComponent(std::make_unique<TileComponent>(tile, isSolid));
+    //entity.addComponent(std::make_unique<TileComponent>(tile, isSolid));
 
     return entity;
   }

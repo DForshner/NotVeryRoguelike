@@ -20,12 +20,25 @@
 
 #include "Component.h"
 
+#include <functional>
+#include <algorithm>
+
 namespace Game {
 
-  struct DialogComponent : Component {
-    DialogComponent(std::string m) : msg(std::move(m)) {}
+  struct HealthComponent : Component {
+    HealthComponent(int health, int maxHealth) : 
+      health(health),
+      maxHealth(maxHealth) 
+    {}
 
-    std::string msg;
+    int health{ 0 };
+    int maxHealth{ 0 };
+
+    void setHealth(int h) { health = h; }
+    void changeHealth(int delta) { 
+      health += delta; 
+      // if (health < 0) 
+    }
   };
 
 }

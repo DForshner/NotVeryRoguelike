@@ -22,10 +22,9 @@
 
 namespace Game {
 
-  struct DialogComponent : Component {
-    DialogComponent(std::string m) : msg(std::move(m)) {}
-
-    std::string msg;
+  struct StrengthComponent : Component {
+    StrengthComponent(int str) : strength(str) {}
+    int strength{ 0 };
   };
 
 }

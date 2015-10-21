@@ -18,27 +18,54 @@
 
 #pragma once
 
+#include <functional>
+#include <algorithm> 
+#include <random>
+#include <chrono>
+
 #include "PositionComponent.h"
 #include "Component.h"
 #include "Entity.h"
-
-#include <functional>
-#include <algorithm> 
+#include "Console.h"
+#include "Map.h"
 
 namespace Game {
 
   struct WanderComponent : Component {
     PositionComponent* _position{ nullptr };
-    int _someValue;
+    //Map& _map;
 
-    WanderComponent(const int& someValue) : _someValue{ someValue } {}
+    WanderComponent() {}
 
     void init() override {
-      _position = &entity->getComponent<PositionComponent>();
+      //_position = &entity->getComponent<PositionComponent>();
+      auto test = entity->getComponent<PositionComponent>();
     }
 
     void update(float mFT) override {
 
+      // TODO: Make more fancy :-)
+      unsigned seed1 = std::chrono::system_clock::now().time_since_epoch().count();
+      std::default_random_engine generator(seed1);
+      std::uniform_int_distribution<int> distribution(0, 5000);
+
+      auto r = distribution(generator);
+
+      if (r % 500 != 0) { return ; } // Do nothing
+
+      int x = _position->x;
+      int y = _position->y;
+
+      switch (r % 4) {
+        case 0: x++; break;
+        case 1: x--; break;
+        case 2: y++; break;
+        case 3: y--; break;
+      }
+
+      // Check if destination tile is solid 
+
+      // Check if destination tile is occupied
     }
 
   };
