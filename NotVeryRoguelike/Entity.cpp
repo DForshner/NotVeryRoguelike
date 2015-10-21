@@ -80,12 +80,21 @@ namespace Game {
     //return *c; // return reference to the newly created component
   //}
 
-  template<typename T> 
-  T& Entity::getComponent() const {
-    assert(hasComponent<T>());
-    auto ptr(componentArray[getComponentId<T>()]);
-    return *static_cast<T*>(ptr); // cast to derived component type
-  }
+  //template <typename T>
+  //T& Entity::getComponent() const {
+    //assert(hasComponent<T>());
+    //auto ptr(_componentArray[getComponentId<T>()]);
+    //return *reinterpret_cast<T*>(ptr); // cast to derived component type
+
+    //return &(new T);
+  //}
+
+  //template <typename T>
+  //T& Entity::getComponentA() const {
+    //assert(hasComponent<T>());
+    //auto ptr(_componentArray[getComponentId<T>()]);
+    //return *reinterpret_cast<T*>(ptr); // cast to derived component type
+  //}
 
   //void Entity::addGroup(GroupId id) noexcept {
     //_groupBitset[id] = true;

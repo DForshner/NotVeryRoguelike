@@ -19,6 +19,7 @@
 #pragma once
 
 #include "Component.h"
+#include "Console.h"
 
 namespace Game {
 

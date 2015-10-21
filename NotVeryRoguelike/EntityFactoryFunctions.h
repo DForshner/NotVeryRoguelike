@@ -20,7 +20,8 @@
 
 #include "EntityManager.h"
 #include "Entity.h"
-
+#include "Constants.h"
+#include "Map.h"
 #include "PositionComponent.h"
 #include "WanderComponent.h"
 #include "StrengthComponent.h"
@@ -29,8 +30,7 @@
 #include "HealthComponent.h"
 #include "NameComponent.h"
 #include "DialogComponent.h"
-
-#include "Map.h"
+#include "WanderComponent.h"
 
 namespace Game {
 
@@ -42,9 +42,8 @@ namespace Game {
     entity.addComponent(std::make_unique<DialogComponent>(msg));
     entity.addComponent(std::make_unique<StrengthComponent>(strength));
     entity.addComponent(std::make_unique<SpeedComponent>(speed));
-    //entity.addComponent(std::make_unique<TileComponent>(tile, isSolid));
-
-    //entity.addComponent(std::make_unique<WanderComponent>(map));
+    entity.addComponent(std::make_unique<TileComponent>(tile, isSolid));
+    entity.addComponent(std::make_unique<WanderComponent>(map));
 
     //WanderComponent test;
 

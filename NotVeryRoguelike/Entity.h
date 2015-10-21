@@ -31,12 +31,6 @@
 
 namespace Game {
 
-  enum Groups : std::size_t {
-    PLAYER,
-    NPC,
-    MONSTER
-  };
-
   namespace Internal {
     // Returns a globally unique id each call (0, 1, etc...)
     inline ComponentId getUniqueComponentId() noexcept {
@@ -50,7 +44,7 @@ namespace Game {
     // Check function is only called from type that inherit from component
     static_assert(std::is_base_of<Component, T>::value, "T must inherit from Component");
 
-    static ComponentId typeId{ getUniqueComponentId() }; // Init once per type T
+    static ComponentId typeId{ Internal::getUniqueComponentId() }; // Init once per type T
     return typeId;
   }
 
@@ -71,9 +65,16 @@ namespace Game {
     bool isAlive() const { return _isAlive; }
     void destroy() { _isAlive = false; }
 
+    template <typename T>
+    T& getComponent() const {
+      assert(hasComponent<T>());
+      auto ptr(_componentArray[getComponentId<T>()]);
+      return *reinterpret_cast<T*>(ptr); // cast to derived component type
+    }
+
     template<typename T> 
     bool hasComponent() const noexcept {
-      return ComponentBitset[getComponentId<T>()];
+      return _componentBitset[getComponentId<T>()];
     }
 
     template<typename T>
@@ -83,9 +84,6 @@ namespace Game {
     // TArgs is a parameter pack to pass to component T's constructor 
     //template<typename T, typename... TArgs>
     //void addComponent(TArgs&&... mArgs);
-
-    template<typename T> 
-    T& getComponent() const;
 
     bool hasGroup(GroupId id) const noexcept {
       return _groupBitset[id];

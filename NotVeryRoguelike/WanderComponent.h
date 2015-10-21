@@ -24,7 +24,7 @@
 #include <chrono>
 
 #include "PositionComponent.h"
-#include "Component.h"
+#include "NullComponent.h"
 #include "Entity.h"
 #include "Console.h"
 #include "Map.h"
@@ -32,14 +32,13 @@
 namespace Game {
 
   struct WanderComponent : Component {
-    PositionComponent* _position{ nullptr };
-    //Map& _map;
+    PositionComponent* _position;
+    Map& _map;
 
-    WanderComponent() {}
+    WanderComponent(Map& map) : _map(map) {}
 
     void init() override {
-      //_position = &entity->getComponent<PositionComponent>();
-      auto test = entity->getComponent<PositionComponent>();
+      _position = &_entity->getComponent<PositionComponent>();
     }
 
     void update(float mFT) override {

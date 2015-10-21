@@ -19,13 +19,17 @@
 #pragma once
 
 #include "Component.h"
+#include "Constants.h"
+
+#include <vector>
+#include <memory>
+#include <algorithm>
+#include <iostream>
+#include <bitset>
+#include <array>
+#include <assert.h>
 
 namespace Game {
 
-  struct NullComponent : Component { 
-    NullComponent() {}
-
-    ~NullComponent() = default;
-  };
 
 }

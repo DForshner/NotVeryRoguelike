@@ -23,7 +23,7 @@ namespace Game {
   class Entity; // Forward declaration
 
   struct Component {
-    Entity* entity{ nullptr };
+    Entity* _entity{ nullptr };
 
     virtual void init() { /* */ }
     virtual void update(float mFT) { /* */ }
