@@ -19,16 +19,15 @@
 #pragma once
 
 #include "Component.h"
-#include "Console.h"
+#include "Glyph.h"
 
 namespace Game {
 
-  struct TileComponent : Component {
-    TileComponent(CHAR_INFO tile, bool isSolid) :
-      tile(tile), isSolid(isSolid) {}
+  struct GlyphComponent : Component {
+    GlyphComponent(Glyph g) :
+      _g(g) {}
 
-    CHAR_INFO tile;
-    bool isSolid;
+    Glyph _g;
   };
 
 }

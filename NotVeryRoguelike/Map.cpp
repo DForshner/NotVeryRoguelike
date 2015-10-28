@@ -31,8 +31,8 @@
 
 namespace Game {
 
-  void Map::load(EntityManager& entities) {
-    auto pack = MapLoader::load(_mapName, entities);
+  void Map::load() {
+    auto pack = MapLoader::load(_mapName, _entities, *this);
     _tiles.assign(pack.Tiles.begin(), pack.Tiles.end());
 
     _items.assign(pack.Items.begin(), pack.Items.end());
@@ -49,8 +49,11 @@ namespace Game {
   }
 
   void Map::draw() {
+
+    std::vector<Tile> npcTiles;
+
     std::vector<std::vector<Tile>*> foreground {
-      &_itemTiles, &_monsterTiles, &_npcTiles, &_exitTiles
+      &_itemTiles, &_monsterTiles, &npcTiles, &_exitTiles
     };
 
     Console::drawTiles(_tiles, foreground, getWidth(), getHeight());
@@ -124,37 +127,6 @@ namespace Game {
   }
 
   void Map::save() {
-
-  }
-
-  void Map::updateNPCs() {
-
-    // TODO: Make more fancy :-)
-    unsigned seed1 = std::chrono::system_clock::now().time_since_epoch().count();
-    std::default_random_engine generator(seed1);
-    std::uniform_int_distribution<int> distribution(0, 5000);
-
-    for (auto i(0u); i < _npcs.size(); ++i) {
-      auto r = distribution(generator);
-
-      if (r % 500 != 0) { continue; }
-        
-      Console::Position newPos{ _npcTiles[i].getPosition() };
-      switch (r % 4) {
-        case 0: newPos.X++; break;
-        case 1: newPos.X--; break;
-        case 2: newPos.Y++; break;
-        case 3: newPos.Y--; break;
-      }
-
-      if (!isOccupied(newPos)) {
-        // TODO: Trigger needs redraw
-        Tile oldTile = _npcTiles[i];
-        Tile newTile(newPos, oldTile.getSymbol(), oldTile.isSolid());
-        _npcTiles[i] = newTile;
-      }
-
-    }
   }
 
   bool Map::isOccupiedByNPC(const Console::Position& pos) const {

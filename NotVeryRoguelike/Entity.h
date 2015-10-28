@@ -80,11 +80,6 @@ namespace Game {
     template<typename T>
     void addComponent(std::unique_ptr<T> c) {}
 
-    // T is type of derived component to add 
-    // TArgs is a parameter pack to pass to component T's constructor 
-    //template<typename T, typename... TArgs>
-    //void addComponent(TArgs&&... mArgs);
-
     bool hasGroup(GroupId id) const noexcept {
       return _groupBitset[id];
     }

@@ -16,24 +16,22 @@
 * under the License.
 */
 
-#include "Entity.h" 
-#include "EntityManager.h"
+#pragma once
+
+#include "Symbols.h"
 
 namespace Game {
 
-  void Entity::init() {
-    _isInitialized = true;
-  }
-    
-  void Entity::update(float mFT) { 
-    for (auto& c : _components) c->update(mFT); 
-  }
+  class Glyph {
+  public:
 
-  void Entity::draw() { for (auto& c : _components) c->draw(); }
+    Glyph(Console::Symbol image) :
+      _image(image) {}
 
-  void Entity::cleanup() {
-    for (auto& c : _components) { c->cleanup(); }
-    _isAlive = false;
-  }
+    Console::Symbol getSymbol() const { return _image; }
+
+  private:
+    Console::Symbol _image;
+  };
 
 }

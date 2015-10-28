@@ -22,6 +22,8 @@
 
 namespace Game {
 
+  constexpr float ftStep{ 1.f };
+
   void World::draw() {
     //_manager.draw();
     //_window.draw();
@@ -33,9 +35,9 @@ namespace Game {
   void World::update() {
     _entities.refresh();
 
-    const int step = 10;
-    _entities.update(step);
+    _entities.update(ftStep);
 
+    // Do interactions between entities
     //auto& npcs(_manager.getEntitiesByGroup(Groups::NPCS);
     //for (auto& npc : npcs) {
     //auto& monsters(_manager.getEntitiesByGroup(Groups::NPCS);
@@ -117,8 +119,8 @@ namespace Game {
       auto exit = _map.getExit(newPosition);
       _player.move(exit.getDestination());
       auto mapName = exit.getMapName();
-      _map = Map{ mapName };
-      _map.load(_entities);
+      _map = Map{ mapName, _entities };
+      _map.load();
 
       _needsRedraw = true;
     }
@@ -134,10 +136,6 @@ namespace Game {
         _map.insert(Tile{ position, Console::GRASS, false }, position);
         break;
     }
-  }
-
-  void World::updateNPCs() {
-    _map.updateNPCs();
   }
 
   void World::interactWithNPC(const Console::Position& pos) {

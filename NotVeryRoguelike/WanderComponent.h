@@ -63,8 +63,17 @@ namespace Game {
       }
 
       // Check if destination tile is solid 
+      if (_map.isOccupied({ x, y })) {
+        return;
+      }
 
       // Check if destination tile is occupied
+      if (_map.isOccupiedByNPC({ x, y })) {
+        return;
+      }
+
+      _position->x = x;
+      _position->y = y;
     }
 
   };

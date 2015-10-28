@@ -54,7 +54,6 @@ int main() {
       toProcess.emplace_back(inputEvent);
     }
 
-    world.updateNPCs();
     world.update();
       
     if (!toProcess.empty()) {

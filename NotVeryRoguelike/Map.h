@@ -33,12 +33,13 @@ namespace Game {
   class Map {
 
   public:
-    Map(std::string mapName) :
+    Map(std::string mapName, EntityManager entities) :
       _mapName(mapName),
-      _hasUnsavedChanges(false)
+      _hasUnsavedChanges(false),
+      _entities(entities)
     {}
 
-    void load(EntityManager& entities);
+    void load();
 
     void draw();
 
@@ -62,8 +63,6 @@ namespace Game {
     bool hasUnsavedChanges() const { return _hasUnsavedChanges; }
     void save();
 
-    void updateNPCs();
-
   private:
     std::string _name;
     std::vector<Tile> _tiles;
@@ -82,6 +81,7 @@ namespace Game {
 
     std::string _mapName;
     bool _hasUnsavedChanges;
+    EntityManager _entities;
   };
 
 }
