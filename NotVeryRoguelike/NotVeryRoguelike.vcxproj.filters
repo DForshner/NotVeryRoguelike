@@ -19,6 +19,15 @@
     <Filter Include="Header Files\Components">
       <UniqueIdentifier>{580487d5-4a35-4c59-8eb2-95cee378dd80}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Systems">
+      <UniqueIdentifier>{bec356e8-368f-4674-a1c3-aaefa925897d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components">
+      <UniqueIdentifier>{b99d6367-05c9-4bc5-8244-b18c5c0638d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Systems">
+      <UniqueIdentifier>{cbe95b53-3d64-42e3-870f-b613e405bc04}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player.h">
@@ -63,12 +72,6 @@
     <ClInclude Include="Component.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DialogComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PositionComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="EntityFactoryFunctions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -81,16 +84,49 @@
     <ClInclude Include="EventManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AISystem.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="WanderComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="PositionComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="RegenComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ManaComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Junk.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="StrengthComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="NameComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DialogComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="SpeedComponent.h">
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="BattleSystem.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="AISystem.h">
+      <Filter>Header Files\Systems</Filter>
     </ClInclude>
     <ClInclude Include="NullComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Glyph.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="WanderComponent.h">
+    <ClInclude Include="GlyphComponent.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
   </ItemGroup>

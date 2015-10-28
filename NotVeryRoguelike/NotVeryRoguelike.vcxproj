@@ -94,8 +94,13 @@
     <ClInclude Include="EntityFactoryFunctions.h" />
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="Events.h" />
+    <ClInclude Include="Glyph.h" />
+    <ClInclude Include="HealthComponent.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="EntityManager.h" />
+    <ClInclude Include="Junk.h" />
+    <ClInclude Include="ManaComponent.h" />
+    <ClInclude Include="NameComponent.h" />
     <ClInclude Include="NullComponent.h" />
     <ClInclude Include="Persistence.h" />
     <ClInclude Include="Map.h" />
@@ -104,7 +109,11 @@
     <ClInclude Include="Music.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PositionComponent.h" />
+    <ClInclude Include="RegenComponent.h" />
+    <ClInclude Include="SpeedComponent.h" />
+    <ClInclude Include="StrengthComponent.h" />
     <ClInclude Include="Symbols.h" />
+    <ClInclude Include="GlyphComponent.h" />
     <ClInclude Include="Tiles.h" />
     <ClInclude Include="WanderComponent.h" />
     <ClInclude Include="World.h" />
